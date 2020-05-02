@@ -3,8 +3,7 @@
 {% block content %}
     {% for recipe in data %}
         <h4>
-           <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a> | by  
-           <a href="{% url 'author_detail' pk=recipe.pk %}">{{ recipe.author.name }}</a>
+           <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
         </h4>
     {% endfor %}
 {% endblock %}
