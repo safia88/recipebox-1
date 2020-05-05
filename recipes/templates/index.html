@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div class="center">
+        <button class="button"><a href="{% url 'add_recipe'%}">ADD A RECIPE</a></button>
+        <button class="button"><a href="{% url 'add_author'%}">BECOME A MEMBER</a></button>
+    </div>
     {% for recipe in data %}
         <h4>
            <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
