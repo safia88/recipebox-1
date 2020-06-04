@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if not data %}
+<h2>Favourite recipes are empty for this user</h2>
+{% else %}
+<h2>All favourite recipes</h2>
+{% for item in data %}
+<h4>
+    <a href="{% url 'recipe_detail' pk=item.recipe.id %}">{{ item.recipe.title }}</a>
+</h4>
+{% endfor %}
+{% endif %}
+{% endblock %}

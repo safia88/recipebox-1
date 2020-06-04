@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, reverse, HttpResponseRedirect
-from recipes.models import Author, RecipeItems
-from recipes.forms import AddRecipeForm, AddAuthorForm, LoginForm, SignupForm
+from recipes.models import Author, RecipeItems, FavouriteRecipes
+from recipes.forms import AddRecipeForm, AddAuthorForm, LoginForm, SignupForm, RecipeForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -92,3 +92,45 @@ def logoutview(request):
     logout(request)
     messages.info(request, 'Logged out successfully!')
     return HttpResponseRedirect(reverse('homepage')) 
+
+
+@login_required()
+def update_recipe(request, pk):
+    print('Id: ', pk)
+    # dictionary for initial data with
+    # field names as keys
+    context = {}
+
+    # fetch the object related to passed id
+    obj = get_object_or_404(RecipeItems, pk=pk)
+
+    # pass the object as instance in form
+    form = RecipeForm(request.POST or None, instance=obj)
+
+    # save the data from the form and
+    # redirect to detail_view
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('homepage'))
+
+    # add form dictionary to context
+    context["form"] = form
+
+    return render(request, "update_recipe.html", context)
+
+
+def favourite_recipes(request, pk):
+    author = Author.objects.get(pk=pk)
+    data = FavouriteRecipes.objects.filter(user=author.user)
+    return render(request, 'favourite-recipe.html', {'data': data})
+
+
+@login_required()
+def favourite(request, pk):
+    recipe = RecipeItems.objects.get(pk=pk)
+    favRec = FavouriteRecipes.objects.filter(recipe=recipe, user=request.user)
+    if not favRec:
+        FavouriteRecipes.objects.create(
+            recipe=recipe,
+            user=request.user)
+    return HttpResponseRedirect(reverse('homepage'))

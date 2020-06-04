@@ -8,7 +8,21 @@
     </div>
     {% for recipe in data %}
         <h4>
-           <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
+            <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
+            {% if request.user.is_authenticated %}
+            {% if request.user.is_staff or request.user == recipe.author.user %}
+            <a title="Edit Recipe" href="{% url 'update_recipe' pk=recipe.pk %}" class="btn btn-default btn-sm"
+                style="margin-left: 10px;">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+            {% endif %}
+        
+            <a title="Set as favourite" href="{% url 'favourite' pk=recipe.pk %}" class="btn btn-default btn-sm"
+                style="margin-left: 10px;">
+                <span class="glyphicon glyphicon-star-empty"></span>
+            </a>
+        
+            {% endif %}
         </h4>
     {% endfor %}
     <div class="center">

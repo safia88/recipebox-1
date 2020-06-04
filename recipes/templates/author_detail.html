@@ -4,7 +4,14 @@
 <div class="post">
     <h4>{{ recipe.author.name }}</h4>
     <p>{{ recipe.author.bio }}</p>
-    <p><a href="{% url 'recipe_detail' pk=recipe.pk %}">Recepies</a></p>
+    <p>
+        <a href="{% url 'recipe_detail' pk=recipe.pk %}" class="btn btn-primary btn-sm">
+            Recepies
+        </a>
+        <a href="{% url 'favourite_recipes' pk=recipe.author.id %}" class="btn btn-primary btn-sm">
+            <span class="glyphicon glyphicon-asterisk"></span> Favourite Recepies
+        </a>
+    </p>
     </h4>
 </div>
 {% endblock %}

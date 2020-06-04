@@ -20,3 +20,11 @@ class RecipeItems(models.Model):
     
     def __str__(self):
         return self.title
+
+
+class FavouriteRecipes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(RecipeItems, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.recipe

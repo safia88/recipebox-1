@@ -1,5 +1,5 @@
 from django import forms
-from recipes.models import Author
+from recipes.models import Author, RecipeItems
 
 # Create your models here.
 
@@ -26,3 +26,19 @@ class SignupForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class RecipeForm(forms.ModelForm):
+    # create meta class
+    class Meta:
+        # specify model to be used
+        model = RecipeItems
+
+        # specify fields to be used
+        fields = [
+            'title',
+            'author',
+            'description',
+            'time',
+            'instruction'
+        ]
